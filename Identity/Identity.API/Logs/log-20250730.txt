@@ -1,0 +1,35 @@
+2025-07-30 17:40:24.153 +05:00 [ERR] An error occurred using the connection to database 'Identity' on server 'tcp://127.0.0.1:5432'.
+2025-07-30 17:41:05.697 +05:00 [ERR] An error occurred using the connection to database 'Identity' on server 'tcp://127.0.0.1:5432'.
+2025-07-30 17:41:07.745 +05:00 [INF] Executed DbCommand (1,272ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE DATABASE "Identity";
+2025-07-30 17:41:08.080 +05:00 [INF] Executed DbCommand (27ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2025-07-30 17:41:08.092 +05:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-07-30 17:41:08.096 +05:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2025-07-30 17:41:08.102 +05:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2025-07-30 17:41:08.119 +05:00 [INF] Applying migration '20250730124044_FirstInit'.
+2025-07-30 17:41:08.139 +05:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "UserId" uuid NOT NULL,
+    "FirstName" text NOT NULL,
+    "LastName" text NOT NULL,
+    "Role" integer NOT NULL,
+    "PhoneNumber" text NOT NULL,
+    "UserName" text NOT NULL,
+    "Password" text NOT NULL,
+    "Email" text NOT NULL,
+    "RefreshToken" text NOT NULL,
+    "RefreshTokenExpiryTime" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_Users" PRIMARY KEY ("UserId")
+);
+2025-07-30 17:41:08.142 +05:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250730124044_FirstInit', '9.0.7');

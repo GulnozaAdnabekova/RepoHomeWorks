@@ -17,6 +17,7 @@ public class Program
 
         builder.ConfigureDatabase();
         builder.ConfigureDI();
+        builder.ConfigureSerilog();  
 
 
         var app = builder.Build();

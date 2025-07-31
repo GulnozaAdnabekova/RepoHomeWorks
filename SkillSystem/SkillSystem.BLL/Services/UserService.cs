@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using SkillSystem.BLL.Converter;
 using SkillSystem.BLL.Dtos.UserDto;
 using SkillSystem.Repository.Repositories;
@@ -14,10 +15,12 @@ namespace SkillSystem.BLL.Services
     {
         private readonly IUserRepository UserRepository;
         private readonly IValidator<UserCreateDto> Validator;
-        public UserService(IUserRepository userRepository, IValidator<UserCreateDto> validator)
+        private readonly ILogger<UserService> Logger;
+        public UserService(IUserRepository userRepository, IValidator<UserCreateDto> validator, ILogger<UserService> logger)
         {
             UserRepository = userRepository;
             Validator = validator;
+            Logger = logger;
         }
 
 
@@ -38,6 +41,8 @@ namespace SkillSystem.BLL.Services
 
             var user = Mappings.ConvertToUser(userCreateDto);
             var userId = await UserRepository.InsertAsync(user);
+
+            Logger.LogInformation("User created successfully with ID:{UserId}", userId);
             return userId;
         }
 

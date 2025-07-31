@@ -14,12 +14,12 @@ public class PersonConfigurations : IEntityTypeConfiguration<Person>
     public void Configure(EntityTypeBuilder<Person> builder)
     {
         builder.ToTable("Person");
-        builder.HasKey(u => u.PersonId);
+        builder.HasKey(p => p.PersonId);
 
-        builder.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
-        builder.Property(u => u.LastName).IsRequired(false).HasMaxLength(50);
+        builder.Property(p => p.FirstName).IsRequired().HasMaxLength(50);
+        builder.Property(p => p.LastName).IsRequired(false).HasMaxLength(50);
 
-        builder.HasMany(u => u.Cars)
+        builder.HasMany(p => p.Cars)
             .WithOne(s => s.Person)
             .HasForeignKey(s => s.PersonId);
     }

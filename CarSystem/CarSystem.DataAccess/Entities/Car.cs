@@ -9,7 +9,6 @@ namespace CarSystem.DataAccess.Entities
     public class Car
     {
         public long CarId { get; set; }
-
         public string Brand { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }

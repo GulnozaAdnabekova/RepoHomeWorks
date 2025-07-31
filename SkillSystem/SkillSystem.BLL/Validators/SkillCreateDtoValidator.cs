@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkillSystem.BLL.Validators
 {
-    internal class SkillCreateDtoValidator
+    public class SkillCreateDtoValidator
     {
     }
 }

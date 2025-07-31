@@ -1,4 +1,6 @@
-﻿using SkillSystem.BLL.Converter;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using SkillSystem.BLL.Converter;
 using SkillSystem.BLL.Dtos.SkillDto;
 using SkillSystem.DataAccess.Entities;
 using SkillSystem.Repository.Repositories;
@@ -13,16 +15,29 @@ namespace SkillSystem.BLL.Services;
 public class SkillService : ISkillService
 {
     private readonly ISkillRepository SkillRepository;
-    public SkillService(ISkillRepository skillRepository)
+    private readonly ILogger<SkillService> Logger;
+   /* private readonly IMemoryCache MemoryCache;
+    private const string SkillCacheKey = "skill_cache_key";*/
+
+
+    public SkillService(ISkillRepository skillRepository, ILogger<SkillService> logger = null, IMemoryCache memoryCache = null)
     {
         SkillRepository = skillRepository;
+        Logger = logger;
+       // MemoryCache = memoryCache;
     }
 
 
     public async Task<ICollection<SkillGetDto>> GetAllAsync()
     {
+        if (MemoryCache.TryGetValue(SkillCacheKey, out List<SkillGetDto> cachedSkills))
+        {
+            return cachedSkills;
+        }
         var skills = await SkillRepository.SelectAllAsync();
         var skillsGetDto = skills.Select(s => Mappings.ConvertToSkillGetDto(s)).ToList();
+
+        MemoryCache.Set(SkillCacheKey, skillsGetDto, TimeSpan.FromMinutes(10));
 
         return skillsGetDto;
     }
@@ -40,6 +55,7 @@ public class SkillService : ISkillService
         var skill = Mappings.ConvertToSkill(skillCreateDto);
         var skillId = await SkillRepository.InsertAsync(skill);
 
+        ClearCache();
         return skillId;
     }
 
@@ -52,4 +68,9 @@ public class SkillService : ISkillService
     {
         throw new NotImplementedException();
     }
+    private void ClearCache()
+    {
+        MemoryCache.Remove(SkillCacheKey);
+    }
+
 }

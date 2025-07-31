@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
             .ToListAsync();
 
         return users;
-
+ 
     }
 
     public async Task<User> SelectByIdAsync(long userId)
